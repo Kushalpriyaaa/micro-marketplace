@@ -1,0 +1,38 @@
+.searchbar {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.searchbar input[type="search"] {
+  flex: 1;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #d0d5ed;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.searchbar button {
+  padding: 0.65rem 1.4rem;
+  border-radius: 8px;
+  border: none;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.searchbar button:hover {
+  background: #1e4fd6;
+}
+
+@media (max-width: 520px) {
+  .searchbar {
+    flex-direction: column;
+  }
+
+  .searchbar button {
+    width: 100%;
+  }
+}
