@@ -18,11 +18,11 @@ const ProductDetail = () => {
       setFavoriteError('');
 
       try {
-        const { data } = await apiClient.get(`/api/products/${id}`);
+        const { data } = await apiClient.get(`/products/${id}`);
         setProduct(data.product);
 
         try {
-          const favoritesResponse = await apiClient.get('/api/favorites');
+          const favoritesResponse = await apiClient.get('/favorites');
           const ids = (favoritesResponse.data.favorites || []).map((item) => item._id);
           setIsFavorite(ids.includes(data.product._id));
         } catch (_) {
@@ -46,10 +46,10 @@ const ProductDetail = () => {
 
     try {
       if (isFavorite) {
-        await apiClient.delete(`/api/favorites/${product._id}`);
+        await apiClient.delete(`/favorites/${product._id}`);
         setIsFavorite(false);
       } else {
-        await apiClient.post(`/api/favorites/${product._id}`);
+        await apiClient.post(`/favorites/${product._id}`);
         setIsFavorite(true);
       }
       setFavoriteError('');

@@ -11,8 +11,13 @@ export const setUnauthorizedHandler = (handler) => {
   unauthorizedHandler = handler;
 };
 
+const rawBaseUrl =
+  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_BASE_URL) ||
+  'https://micro-marketplace-1-52ut.onrender.com/api';
+const baseURL = rawBaseUrl.replace(/\/$/, '');
+
 const apiClient = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL,
   timeout: 10000,
 });
 

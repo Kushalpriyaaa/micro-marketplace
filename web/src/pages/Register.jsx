@@ -27,7 +27,7 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const { data } = await apiClient.post('/api/auth/register', form);
+      const { data } = await apiClient.post('/auth/register', form);
       login(data);
       navigate('/products', { replace: true });
     } catch (err) {

@@ -30,7 +30,7 @@ const Products = () => {
       return;
     }
 
-    const { data } = await apiClient.get('/api/favorites');
+    const { data } = await apiClient.get('/favorites');
     const ids = (data.favorites || []).map((item) => item._id);
     setFavoriteIds(new Set(ids));
   }, [isAuthenticated]);
@@ -40,7 +40,7 @@ const Products = () => {
     setError('');
 
     try {
-      const { data } = await apiClient.get('/api/products', {
+      const { data } = await apiClient.get('/products', {
         params: {
           search: searchTerm,
           page: currentPage,
@@ -96,14 +96,14 @@ const Products = () => {
     try {
       setError('');
       if (isFavorite) {
-        await apiClient.delete(`/api/favorites/${productId}`);
+        await apiClient.delete(`/favorites/${productId}`);
         setFavoriteIds((prev) => {
           const next = new Set(prev);
           next.delete(productId);
           return next;
         });
       } else {
-        await apiClient.post(`/api/favorites/${productId}`);
+        await apiClient.post(`/favorites/${productId}`);
         setFavoriteIds((prev) => new Set(prev).add(productId));
       }
     } catch (err) {

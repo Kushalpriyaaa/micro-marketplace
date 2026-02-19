@@ -22,7 +22,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const { data } = await apiClient.post('/api/auth/login', form);
+      const { data } = await apiClient.post('/auth/login', form);
       login(data);
       const redirectPath = location.state?.from || '/products';
       navigate(redirectPath, { replace: true });
