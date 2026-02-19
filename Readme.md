@@ -1,91 +1,87 @@
-# Micro Marketplace
+# Micro Marketplace App
 
-## Overview
-- Full-stack marketplace that exposes a secure Node/Express REST API, a Vite-powered React web client, and an Expo mobile app.
-- Users can register/login, browse curated products, mark favorites, and view product details from any device.
-- Shared token-based authentication keeps sessions in sync across clients.
+## Project Overview
+Micro Marketplace App is a three-surface commerce demo built for my internship assignment. The backend secures data with JWT auth and MongoDB, the web client uses React for a responsive catalog view, and the mobile client mirrors the same flows through Expo. Users can register, browse, search, paginate, and favorite products from any device. All clients point to the same deployed API, so features stay consistent. The project stays intentionally lean while meeting every stated requirement.
 
 ## Tech Stack
-- **Backend:** Node.js, Express, Mongoose, JWT, bcrypt, Morgan.
-- **Database:** MongoDB Atlas or self-hosted MongoDB.
-- **Web:** React 19, React Router, Axios, Vite.
-- **Mobile:** Expo SDK 54 (React Native 0.81), React Navigation, AsyncStorage.
-- **Tooling:** nodemon for hot reload, seed script for demo data.
+- **Backend:** Node.js, Express, Mongoose, JWT, bcrypt, Morgan
+- **Database:** MongoDB Atlas
+- **Web:** React 19, React Router, Axios, Vite
+- **Mobile:** React Native (Expo SDK 54), React Navigation, AsyncStorage
+- **Tooling:** Nodemon, seed script, EAS Update, Render, Vercel
 
-## Repository Layout
+## Backend
+- Secure JWT register/login endpoints with hashed passwords (bcrypt)
+- Product CRUD with validation, search, pagination, and favorite toggles
+- Seed script loads 10 products and 2 demo users for quick testing
+- Hosted on Render: https://micro-marketplace-1-52ut.onrender.com
+
+## Web
+- React SPA with clean CSS modules for login, register, product list, detail, and favorites
+- Axios interceptor injects tokens and handles 401 flows
+- Search bar + pagination controls backed by API query params
+- Deployed on Vercel: https://micro-marketplace-lawjoghzj-kushalpriyaaas-projects.vercel.app/
+
+## Mobile
+- Expo app reusing the same API; supports login, browse, detail, favorite/unfavorite
+- Navigation driven by React Navigation stack; tokens stored with AsyncStorage
+- Published through EAS Update: https://expo.dev/accounts/jitendra2/projects/micro-marketplace-mobile/updates/890f874b-b4f3-4174-8014-d6717e0291d9
+
+## Features
+- JWT authentication with proper status codes and validation
+- Product listing with search keywords, paging, and responsive cards
+- Product detail view with pricing, description, and favorite button
+- Favorite management persisted per user on backend
+- Seeded demo content for quick reviewer access
+- Shared REST client patterns across web and mobile
+
+## Live Deployment Links
+- **Backend (Render):** https://micro-marketplace-1-52ut.onrender.com
+- **Web (Vercel):** https://micro-marketplace-lawjoghzj-kushalpriyaaas-projects.vercel.app/
+- **Mobile (Expo EAS Update):** https://expo.dev/accounts/jitendra2/projects/micro-marketplace-mobile/updates/890f874b-b4f3-4174-8014-d6717e0291d9
+
+## Test Credentials
+- Email: test1@example.com / Password: 123456
+- Email: test2@example.com / Password: 123456
+
+## Local Setup Instructions
+
+### Backend
+```bash
+cd backend
+npm install
+# create .env with PORT, MONGO_URI, JWT_SECRET, JWT_EXPIRES_IN
+npm run seed
+npm run dev
 ```
-backend/   REST API (Express + MongoDB)
-mobile/    Expo React Native client
-web/       React + Vite web client
+
+### Web
+```bash
+cd web
+npm install
+npm run dev
+# Vite runs on http://localhost:5173 by default
 ```
 
-## Prerequisites
-- Node.js 18+ and npm.
-- Running MongoDB instance (local Docker or managed service).
-- Expo CLI (`npm install -g expo-cli`) plus Android Studio / Xcode simulators for native testing.
+### Mobile
+```bash
+cd mobile
+npm install
+npx expo start
+# Scan QR with Expo Go or run `npm run android`
+```
 
-## Backend API (`backend/`)
-1. Install dependencies and create your environment file:
-	```bash
-	cd backend
-	npm install
-	# create .env with the variables below
-	```
-2. Required variables inside `.env`:
-	```env
-	PORT=5000
-	MONGO_URI=mongodb://localhost:27017/micro-marketplace
-	JWT_SECRET=super-secret-string
-	JWT_EXPIRES_IN=1d
-	```
-3. Run the API:
-	```bash
-	npm run dev        # nodemon
-	# or
-	npm start
-	```
-4. Seed demo data whenever needed:
-	```bash
-	npm run seed
-	```
+## API Overview
+- `POST /api/auth/register` – create account
+- `POST /api/auth/login` – obtain JWT
+- `GET /api/products` – list products with `search`, `page`, `limit`
+- `GET /api/products/:id` – product detail
+- `POST /api/favorites/:productId` – add favorite
+- `DELETE /api/favorites/:productId` – remove favorite
+- `GET /api/favorites` – list user favorites
 
-## Web App (`web/`)
-1. Update `web/src/api/axios.js` if the API does not live at `http://localhost:5000`.
-2. Install and run Vite:
-	```bash
-	cd web
-	npm install
-	npm run dev
-	```
-3. Access the UI at the Vite URL (usually http://localhost:5173).
-
-## Mobile App (`mobile/`)
-1. Edit `mobile/src/api/axios.js` and set `BASE_URL` to your machine's LAN IP while the backend runs.
-2. Install dependencies and start Expo:
-	```bash
-	cd mobile
-	npm install
-	npm run start      # launches Expo Dev Tools
-	```
-3. Launch on a device/emulator:
-	```bash
-	npm run android
-	# or
-	npm run ios
-	```
-	Scan the QR code with Expo Go (physical device) or let Expo open the simulator.
-
-## Helpful Scripts
-| Scope   | Command           | Description |
-|---------|-------------------|-------------|
-| backend | `npm run dev`     | Start API with nodemon |
-| backend | `npm run seed`    | Insert/refresh sample data |
-| web     | `npm run dev`     | Start Vite dev server |
-| web     | `npm run build`   | Production build |
-| mobile  | `npm run start`   | Launch Expo dev tools |
-| mobile  | `npm run android` | Open Android emulator/device |
-
-## Tips
-- Keep `.env` files out of source control (see `.gitignore`).
-- When testing mobile locally, verify the backend and device use the same network so the LAN IP is reachable.
-- Run `npm run seed` after dropping your database so the UI has products to show.
+## Notes
+- Render free tier can take 20–30 seconds to wake on the first request
+- Mobile app runs via Expo Go or EAS builds; ensure the device has internet access
+- Environment variables stay outside source control; see `.gitignore`
+- For grading, all assignment checkpoints listed above are implemented and running in the deployed links
