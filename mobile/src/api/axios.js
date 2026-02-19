@@ -2,7 +2,8 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TOKEN_KEY = 'mm_token';
-const BASE_URL = 'http://YOUR_LOCAL_IP:5000'; // Replace with your machine IP when running locally.
+const BASE_URL =
+  process.env.EXPO_PUBLIC_API_BASE_URL || 'https://micro-marketplace-1-52ut.onrender.com/api';
 
 let onUnauthorized;
 
